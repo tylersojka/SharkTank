@@ -1,0 +1,24 @@
+{% extends admin/layout.html %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<h2>Settings</h2>
+
+<div class="content-block">
+    <form action="" method="post" class="form responsive-width-100">
+        {% for($i = 0; $i < count($matches[1]); $i++): %}
+        {{ Admin::format_var_html($matches[1][$i], $matches[2][$i]) }}
+        {% endfor %}
+        <input type="submit" value="Save">
+    </form>
+</div>
+
+<script>
+document.querySelectorAll("input[type='checkbox']").forEach(function(checkbox) {
+    checkbox.onclick = function() {
+        checkbox.value = checkbox.checked ? 'true' : 'false';
+    };
+});
+</script>
+{% endblock %}
