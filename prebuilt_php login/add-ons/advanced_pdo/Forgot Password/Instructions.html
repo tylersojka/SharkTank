@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Instructions</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1">
+		<meta name="robots" content="noindex, nofollow">
+		<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAqFBMVEUAAAAzQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU+vbZcxAAAAN3RSTlMAAQIDBAUGCAsOEBESFhccHR8gJzM3Pk1OUFRmbXeCg4uMjpSjpqiwtLW3usDO09fZ2uDm6O/9IUR6cgAAAH1JREFUGBltwdUWglAARcGNCNjY2B1YWOD5/z/T68L75AwfgawSxkzZxthKRYxEEYanAw0glDWoLYFYSeAbsarDCEi1cAw3fXKqQF3W1H8Ac1md7gS4ynJXbWjJ2jmZA3tZ/eYauCn3OhbGPeAc8uPefaB8kTXiy/NzBf55A27BHFFEBO8ZAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon">
+		<style>*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"segoe ui",roboto,oxygen,ubuntu,cantarell,"fira sans","droid sans","helvetica neue",Arial,sans-serif;font-size:16px;line-height:24px}body,html{padding:0;margin:0}body{background-color:#f1f3f7}.content{width:800px;background-color:#fff;margin:25px auto 25px auto;padding:25px;box-shadow:0 0 5px rgba(0,0,0,.2)}h2{font-size:18px;color:#495362;padding:15px 0;border-top:1px solid #f5f7f9;border-bottom:1px solid #f5f7f9}h1{margin:0;font-size:20px;color:#495362;padding:15px 0;text-align:center}h2{margin:30px 0 0 0}li{padding:0 0 6px 0}li span{color:red;font-weight:600}li i{color:#37a269}a{color:#006edf;text-decoration:none}a:hover{color:#005bb8}code{display:block;overflow:auto;tab-size:4;width:100%;border-radius:5px;font-family:Consolas,Monaco,"andale mono","ubuntu mono",monospace;padding:15px;background-color:#f3f4f7;font-size:14px}@media screen and (max-width:800px){.content{width:95%}}</style>
+	</head>
+	<body>
+    	<div class="content">
+
+			<h1>Instructions</h1>
+
+			<h2>Add-on Details</h2>
+			
+			<p>The Forgot Password add-on will give the user the ability to request a password reset by email and then reset their forgotten password.</p>
+
+			<h2>How To Add</h2>
+			
+			<p>Make sure your web-server is up and running, navigate to <a href="http://localhost/phpmyadmin/" target="_blank">phpMyAdmin</a>, click the "phplogin" database, click the "Import" tab, and select the "forgotpassword.sql" file and upload.</p>
+			
+			<p>Add the "forgotpassword.php" and "resetpassword.php" files to your "phplogin" directory.</p>
+			
+			<p>Edit the "index.php" file and find:</p>
+			
+<pre><code>&lt;label id=&quot;rememberme&quot;&gt;
+	&lt;input type=&quot;checkbox&quot; name=&quot;rememberme&quot;&gt;Remember me
+&lt;/label&gt;
+</code></pre>
+			
+			<p>Add after:</p>
+			
+			<code>&lt;a href=&quot;forgotpassword.php&quot;&gt;Forgot Password?&lt;/a&gt;</code>
+	
+		</div>
+    </body>
+</html>

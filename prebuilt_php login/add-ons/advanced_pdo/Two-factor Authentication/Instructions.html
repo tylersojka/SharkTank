@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Instructions</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1">
+		<meta name="robots" content="noindex, nofollow">
+		<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAqFBMVEUAAAAzQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU8zQU+vbZcxAAAAN3RSTlMAAQIDBAUGCAsOEBESFhccHR8gJzM3Pk1OUFRmbXeCg4uMjpSjpqiwtLW3usDO09fZ2uDm6O/9IUR6cgAAAH1JREFUGBltwdUWglAARcGNCNjY2B1YWOD5/z/T68L75AwfgawSxkzZxthKRYxEEYanAw0glDWoLYFYSeAbsarDCEi1cAw3fXKqQF3W1H8Ac1md7gS4ynJXbWjJ2jmZA3tZ/eYauCn3OhbGPeAc8uPefaB8kTXiy/NzBf55A27BHFFEBO8ZAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon">
+		<style>*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"segoe ui",roboto,oxygen,ubuntu,cantarell,"fira sans","droid sans","helvetica neue",Arial,sans-serif;font-size:16px;line-height:24px}body,html{padding:0;margin:0}body{background-color:#f1f3f7}.content{width:800px;background-color:#fff;margin:25px auto 25px auto;padding:25px;box-shadow:0 0 5px rgba(0,0,0,.2)}h2{font-size:18px;color:#495362;padding:15px 0;border-top:1px solid #f5f7f9;border-bottom:1px solid #f5f7f9}h1{margin:0;font-size:20px;color:#495362;padding:15px 0;text-align:center}h2{margin:30px 0 0 0}li{padding:0 0 6px 0}li span{color:red;font-weight:600}li i{color:#37a269}a{color:#006edf;text-decoration:none}a:hover{color:#005bb8}code{display:block;overflow:auto;tab-size:4;width:100%;border-radius:5px;font-family:Consolas,Monaco,"andale mono","ubuntu mono",monospace;padding:15px;background-color:#f3f4f7;font-size:14px}@media screen and (max-width:800px){.content{width:95%}}</style>
+	</head>
+	<body>
+    	<div class="content">
+
+<h1>Instructions</h1>
+
+<h2>Add-on Details</h2>
+
+<p>The Two-factor Authentication add-on will require the user to provide a code if the IP address has changed, this code is sent to the user's email address.</p>
+
+<h2>How To Add</h2>
+
+<p>In phpMyAdmin select the "phplogin" database and import the "twofactor.sql" SQL file.</p>
+
+<p>Copy both the "twofactor.html" and "twofactor.php" files to your "phplogin" directory.</p>
+
+<p>Edit the "authenticate.php" file and find this line:</p>
+
+<pre><code>echo 'Please activate your account to login, click &#60;a href="resendactivation.php"&#62;here&#60;/a&#62; to resend the activation email!';</code></pre>
+
+<p>Add After:</p>
+
+<pre><code>} else if ($_SERVER['REMOTE_ADDR'] != $account['ip']) {
+	// Two-factor authentication required
+	$_SESSION['2FA'] = uniqid();
+	echo '2FA: twofactor.php?id=' . $account['id'] . '&email=' . $account['email'] . '&code=' . $_SESSION['2FA'];</code></pre>
+
+<p>Edit the "index.php" file, find this line:</p>
+
+<pre><code>window.location.href = "home.php";</code></pre>
+
+<p>Add after:</p>
+
+<pre><code>} else if (this.responseText.indexOf("2FA") !== -1) {
+    window.location.href = this.responseText.replace("2FA: ", "");</code></pre>
+
+<p>Edit the "register.php" file, find this line:</p>
+
+<pre><code>$stmt = $pdo->prepare('INSERT INTO accounts (username, password, email, activation_code) VALUES (?, ?, ?, ?)');</code></pre>
+
+<p>Replace with:</p>
+
+<pre><code>$stmt = $pdo->prepare('INSERT INTO accounts (username, password, email, activation_code, ip) VALUES (?, ?, ?, ?, ?)');</code></pre>
+
+<p>Find this line:</p>
+
+<pre><code>$stmt->execute([ $_POST['username'], $password, $_POST['email'], $uniqid ]);</code></pre>
+
+<p>Replace with:</p>
+
+<pre><code>$ip = $_SERVER['REMOTE_ADDR'];
+$stmt->execute([ $_POST['username'], $password, $_POST['email'], $uniqid, $ip ]);</code></pre>
+
+		</div>
+    </body>
+</html>

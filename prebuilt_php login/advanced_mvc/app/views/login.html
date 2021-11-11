@@ -1,0 +1,49 @@
+{% extends layout.html %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="login">
+    <h1>Login</h1>
+    <div class="links">
+        <a href="{% url login %}" class="active">Login</a>
+        <a href="{% url register %}">Register</a>
+    </div>
+    <form action="{% url authenticate %}" method="post">
+        <input type="hidden" name="token" value="{{ $token }}">
+        <label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Username" id="username" required>
+        <label for="password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        <label id="rememberme">
+            <input type="checkbox" name="rememberme">Remember me
+        </label>
+        <a href="{% url forgotpassword %}">Forgot Password?</a>
+        <div class="msg"></div>
+        <input type="submit" value="Login">
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelector(".login form").onsubmit = function(event) {
+    event.preventDefault();
+    var form_data = new FormData(document.querySelector(".login form"));
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", document.querySelector(".login form").action, true);
+    xhr.onload = function () {
+        if (this.responseText.toLowerCase().indexOf("success") !== -1) {
+            window.location.href = "home";
+        } else {
+            document.querySelector(".msg").innerHTML = this.responseText;
+        }
+    };
+    xhr.send(form_data);
+};
+</script>
+{% endblock %}
